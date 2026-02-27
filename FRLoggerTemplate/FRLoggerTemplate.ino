@@ -7,10 +7,12 @@
 // - 1x OLED display
 // - sensors
 // Required libraries:
-// - FRLibBasics (download from https://github.com/josmeuleman/FRLibBasics, unzipped in ../Documents/Arduino/libraries/ )
-// - Libraries that are needed per sensor
+// - FRLibBasics
+// - SSD1306Ascii
+// - Specific libraries that are needed per sensor
 //
 // 2026-02-27, Jos Meuleman, Inholland Aeronautical & Precision Engineering, The Netherlands
+
 
 // Libraries from FRLibBasics
 #include <FRTimer.h>
