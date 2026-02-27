@@ -1,4 +1,5 @@
 // Generic FRSensor for the Logger
+// DO NOT CHANGE THIS FILE
 // 
 // 2024-03-07, Jos Meuleman & Tim van Cuylenborg, Inholland Aeronautical & Precision Engineering, The Netherlands
 
