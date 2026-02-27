@@ -2,22 +2,15 @@
 // This script logs a few sensors and can be extended with more
 // Required hardware:
 // - 1x Flight Recorder Board v2 with ESP32
-// - 1x Angular Sensor (AS5600)
-// - 1x IMU Sensor (MPU9250)
-// - 1x GPS (GY-GPSV3-neo or Adafruit )
 // - 1x SD Card reader
-// Connections:
-// - components mounted on board
-// - SD card reader mounted on board
+// - 1x ESP32
+// - 1x OLED display
+// - sensors
 // Required libraries:
 // - FRLibBasics (download from https://github.com/josmeuleman/FRLibBasics, unzipped in ../Documents/Arduino/libraries/ )
-// - AS5600 by Rob Tillaart (tested on 0.6.0)
-// - MPU9280 Bolder Flight Systems (tested on 5.6.0), dependencies:
-//    - Eigen Bolder Flight Systems (tested on 3.0.2)
-//    - Unit Conversions Bolder Flight Systems (tested on 5.0.0)
-// - TinyGPSPlus.h (tested)
+// - Libraries that are needed per sensor
 //
-// 2024-03-21, Jos Meuleman, Inholland Aeronautical & Precision Engineering, The Netherlands
+// 2026-02-27, Jos Meuleman, Inholland Aeronautical & Precision Engineering, The Netherlands
 
 // Libraries from FRLibBasics
 #include <FRTimer.h>
@@ -28,13 +21,11 @@
 #include <SSD1306Ascii.h>      //i2C OLED
 #include <SSD1306AsciiWire.h>  //i2C OLED
 
-// include extra files. Note that the order matters!
+// include extra project files. Note that the order matters!
 #include "FRLogger.h"
 #include "FRBMP280.h"
 #include "init.h"
 #include "customfunctions.h"
-
-
 
 
 //---------------------------------------------------------------------------------------------------------
@@ -62,6 +53,11 @@ void setup() {
 
 
   // Initialize each sensor object. Give an error on failure
+  // On success, add the sensors to the logger
+  // The "&" sign means that the sensor gets the address of the sensor object (pointer)
+  // The logger now can read updates from the sensor
+
+  // Pressure sensor
   if (!myBMPSensor.Init(Wire)){
     Message("BMP Sensor not found", myLED, MAGENTA, Serial, myOLED);
   }
@@ -69,42 +65,21 @@ void setup() {
     myLogger.AddSensor(&myBMPSensor);
   }
 
-  // if (!myAngleOfAttackSensor.Init()){
-  //   Error("Angle of Attack Sensor (AS5600) not found!");
-  // }
+  // Do something similar for your other sensors
 
-  // if (!myIMUSensor.Init(Wire)){
-  //   Error("IMU (MPU9250) not found!");
-  // }
 
-  // if (!myGPSSensor.Init(LAT0, LON0)) {
-  //   Error("GPS not found!");
-  // }
-
+  // Check presence of the SD-card reader and SD-card
   if (!myLogger.CheckSD()) {
     Message("No SD card found!", myLED, RED, Serial, myOLED);
   }
 
-  myOLED.begin(&Adafruit128x32, OLED_ADDRESS);
-  myOLED.setFont(Adafruit5x7);
-  myOLED.clear();  //clear display
-  myOLED.print("Setup started");
-
   // Wait a little to make sure all sensors are up and running before reading them out
   delay(100);
-
-
-  // Add the sensors to the logger
-  // The "&" sign means that the sensor gets the address of the sensor object (pointer)
-  // The logger now can read updates from the sensor
-  // myLogger.AddSensor(&myAngleOfAttackSensor);
-  // myLogger.AddSensor(&myIMUSensor);
-  // myLogger.AddSensor(&myGPSSensor);
 
   // if the button was pressed at start, here the offset corrections can be made. In most cases it means: what you read now is zero
   // only for acceleration, be mindful that az = -9.81, assuming that your sensor is orientated as such
   if (needOffsetCalculation) {
-    Serial.println("Sensor values before and after Calibration:");
+    myBMPSensor.AutoOffset(); 
 
   }
 
