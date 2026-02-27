@@ -40,10 +40,11 @@ public:
 	}
 
 	void AutoOffset() {
-		p0 = GetPressure();
+		// do your magic code here. Hint: use the P0
 	}
 	float GetSpeed() {
-		return sqrt(2.0 * abs(GetPressure()) / rho);
+		// Do your magic code here
+		return 0.0);
 	}
 
 	String HeaderString() override;
@@ -53,7 +54,7 @@ private:
 	bfs::Ms4525do* _myPitot;
 	const int PITOT_I2C_ADDRESS = 0x28;  // I2C address of the Pitot sensor
 	float p0 = 0.0;
-	float rho = 1.204;  // Density of air at 20 deg at 1013 hPa
+	
 };
 
 #endif
