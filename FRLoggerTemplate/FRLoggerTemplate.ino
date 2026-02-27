@@ -79,8 +79,8 @@ void setup() {
   // if the button was pressed at start, here the offset corrections can be made. In most cases it means: what you read now is zero
   // only for acceleration, be mindful that az = -9.81, assuming that your sensor is orientated as such
   if (needOffsetCalculation) {
-    myBMPSensor.AutoOffset(); 
-
+    myBMPSensor.AutoOffset();
+    // Do your other sensors here too 
   }
 
   // At the end of the setup, start the clock (for calculation loop durations)
@@ -94,7 +94,6 @@ void setup() {
 // This block of code is looped infinitely
 //---------------------------------------------------------------------------------------------------------
 void loop() {
-
   //-------------------------------------------------------------------------------------------------------
   // Start or stop logger, depending on the button state
   //-------------------------------------------------------------------------------------------------------
@@ -129,17 +128,11 @@ void loop() {
   //-------------------------------------------------------------------------------------------------------
   // Update the OLED
   //-------------------------------------------------------------------------------------------------------
-  // myOLED.setRow(1);
-  // myOLED.print("# Sats found: ");
-  // myOLED.print(myGPSSensor.GetSatellites());
-  // myOLED.println("   ");
-  // if (myGPSSensor.HasValidData()){
-  //   myOLED.println("GPS fix    ");
-  // }
-  // else {
-  //   myOLED.println("No GPS fix");
-  // }
-
+  myOLED.setRow(1);
+  myOLED.print("alt. [m]: ");
+  myOLED.print(myBMPSensor.GetAltitude());
+  myOLED.println("   "); // This is a trick to overwrite some old data with some blanks. 
+  
 
   //-------------------------------------------------------------------------------------------------------
   // End of the loop
