@@ -23,7 +23,7 @@ public:
 		delete _myPitot;
 	}
 
-  // Initialisation of the sensor
+	// Initialisation of the sensor
 	bool Init(TwoWire& myWire) {
 		//_myPitot->Config(FILL IN STUFF HERE);
 		// Start communication with the Pitot Sensor. If this fails, the program will stop here
@@ -47,14 +47,30 @@ public:
 		return 0.0);
 	}
 
-	String HeaderString() override;
-	String SensorString() override;
+	// This function will return the names of the data that will be logged. The logger will call this function
+	String HeaderString() override {
+		String tempString;
+		tempString.concat("delta pressure [Pa]; ");
+		tempString.concat("speed [m/s]; ");
+		tempString.concat("tempPitot [degC]; ");
+		return tempString;
+	}
+
+	// This function will the data that will be logged. The logger will call this function
+	String SensorString() override {
+		_myPitot->Read();
+		String tempString;
+		tempString.concat(createFloatString(GetPressure(), 2));
+		tempString.concat(createFloatString(GetSpeed(), 2));
+		tempString.concat(createFloatString(_myPitot->die_temp_c(), 1));
+
+		return tempString;
+	}
 
 private:
 	bfs::Ms4525do* _myPitot;
 	const int PITOT_I2C_ADDRESS = 0x28;  // I2C address of the Pitot sensor
 	float p0 = 0.0;
-	
 };
 
 #endif
