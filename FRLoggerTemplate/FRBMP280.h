@@ -1,4 +1,5 @@
 // Wrapper for a BMP280 sensor. It uses the FRSensor class, such that the Logger class can log the sensor.
+// This file works as is. bu
 //
 // 2026-02-27, Jos Meuleman, Inholland Aeronautical & Precision Engineering, The Netherlands
 
