@@ -12,14 +12,17 @@
 
 class FRBMP280 : public FRSensor {
 public:
+  // Constructor
   FRBMP280() {
     _myBMP = new Adafruit_BMP280();
   }
   
+  // Destructor
   ~FRBMP280() {
     delete _myBMP;
   }
 
+  // Initialisation of the sensor
   bool Init(TwoWire& myWire) {
     if (!_myBMP->begin(BMP280_ADDRESS_ALT)) {
       return false;
@@ -40,6 +43,7 @@ public:
     _offsetPressure = inPressure;
   }
 
+  // This function will return the names of the data that will be logged. The logger will call this function
   String HeaderString() override {
     String tempString;
     tempString.concat("Pressure [Pa]; ");
@@ -48,6 +52,7 @@ public:
     return tempString;
   }
 
+  // This function will the data that will be logged. The logger will call this function
   String SensorString() override {
     String tempString;
     tempString.concat(createFloatString(GetPressure(), 0));
@@ -58,6 +63,7 @@ public:
 
 private:
   Adafruit_BMP280* _myBMP;
-  float _offsetPressure = 1013.25;
+  float _offsetPressure = 1013.25; //Some default value that is not too crazy
 };
+
 #endif
