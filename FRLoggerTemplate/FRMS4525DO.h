@@ -40,7 +40,7 @@ public:
 	}
 
 	void AutoOffset() {
-		// do your magic code here. Hint: use the P0
+		// do your magic code here. Hint: define the P0
 	}
 	float GetSpeed() {
 		// Do your magic code here
