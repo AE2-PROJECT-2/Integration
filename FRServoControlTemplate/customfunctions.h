@@ -44,22 +44,14 @@ void HandleLandingGearSwitch(int channelValue){
       servoTargetPos[SERVOLANDINGGEAR] = SERVOLANDINGGEARPOSRETRACTED;
       Serial.println("Retract gear");
     } else {
-      // So it was in MIDSTATE, now close the hatch
-      servoTargetPos[SERVOLANDINGHATCH] = SERVOLANDINGHATCHPOSCLOSED;
-      Serial.println("Close hatch");
+      // what shall we do here?
+
     }
   }
   if (landingGearSwitchState > landingGearSwitchStatePrev) {
     // towards extended state
-    if (landingGearSwitchState == MIDSTATE) {
-      // So it was LOSTATE, now open the hatch
-      servoTargetPos[SERVOLANDINGHATCH] = SERVOLANDINGHATCHPOSOPEN;
-      Serial.println("Open hatch");
-    } else {
-      // So it was in MIDSTATE, now extend the gear
-      servoTargetPos[SERVOLANDINGGEAR] = SERVOLANDINGGEARPOSEXTENDED;
-      Serial.println("Extend gear");
-    }
+    // build another if statement like above, do distinguish between a hatch action and a gear action.
+
   }
   landingGearSwitchStatePrev = landingGearSwitchState; //update the previous state for the next loop
 
