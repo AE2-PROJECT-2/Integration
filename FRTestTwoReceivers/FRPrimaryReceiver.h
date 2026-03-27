@@ -63,7 +63,7 @@ public:
 	String SensorString() override {
 		String tempString;
 		for (byte i = 0; i < _numberOfChannels; i++) {
-			tempString.concat(createFloatString(_channelValues[i], 2));
+			tempString.concat(createIntString(_channelValues[i]));
 		}
 		return tempString;
 	}

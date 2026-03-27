@@ -5,15 +5,13 @@
 // - 2x Tunigy TGY-i6S Controller programmed in PPM mode
 // - 1x OLED connected to board
 // Connections:
-// - TGY1 channel PPM, pin 1 - FR Board, J3-GND
-// - TGY1 channel PPM, pin 2 - FR Board, J3-+5V
-// - TGY1 channel PPM, pin 3 - FR Board, J3-D4
-// - TGY2 channel PPM, pin 1 - FR Board, J2-GND
-// - TGY2 channel PPM, pin 2 - FR Board, J2-+5V
-// - TGY2 channel PPM, pin 3 - FR Board, J2-D2
+// - TGY2 channel PPM, pin 1 - FR Board, J3-GND
+// - TGY2 channel PPM, pin 2 - FR Board, J3-+5V
+// - TGY2 channel PPM, pin 3 - FR Board, J3-D4
+// - TGY1 channel PPM, pin 1 - FR Board, J2-GND
+// - TGY1 channel PPM, pin 3 - FR Board, J2-D15
 // Required libraries:
 // - FRLibBasics (download from https://github.com/josmeuleman/FRLibBasics, unzipped in ../Documents/Arduino/libraries/ )
-// - FRLibIntegration (download from https://github.com/josmeuleman/FRLibIntegration, unzipped in ../Documents/Arduino/libraries/ )
 //
 // 2024-05-06, Jos Meuleman, Inholland Aeronautical & Precision Engineering, The Netherlands
 
@@ -39,8 +37,8 @@ void setup() {
   delay(1000);  // safe to wait a few milliseconds after serial.begin before writing to serial port
   Serial.println("Setup ");
 
-  MyReceiver1.Init();
-  MyReceiver2.Init();
+  MyReceiverPrimary.Init();
+  MyReceiverSecondary.Init();
 
   myTimer.Start();
   Serial.println("End of Setup");
@@ -52,18 +50,18 @@ void setup() {
 //---------------------------------------------------------------------------------------------------------
 void loop() {
   //-------------------------------------------------------------------------------------------------------
-  // Read the myReceiver1 and store the values
+  // Read the values from the receivers
   //-------------------------------------------------------------------------------------------------------
-  for (byte i = 0; i < NUMBEROFCHANNELS1; i++) {
-    channelsValues1[i] = MyReceiver1.ReadChannel(i);
-    Serial.print(channelsValues1[i]);
-    Serial.print("; ");
-  }
+  // The primary receiver is now a sensor object, so you can read the SensorString
+  Serial.print(MyReceiverPrimary.SensorString());
+
+  // The secondary receiver is not a sensor object, so read the channels individually
   for (byte i = 0; i < NUMBEROFCHANNELS2; i++) {
-    channelsValues2[i] = MyReceiver2.ReadChannel(i);
+    channelsValues2[i] = MyReceiverSecondary.ReadChannel(i);
     Serial.print(channelsValues2[i]);
     Serial.print("; ");
   }
+  // End with a new line
   Serial.println();
 
 
