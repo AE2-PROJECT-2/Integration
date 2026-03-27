@@ -14,7 +14,7 @@ const int PPMTHRESHMID = 1100;
 const int PPMTHRESHHIGH = 1350;
 
 // other constants
-const int  LOOPTIMESERVOMS = 10;     // Loop time for controlling servos
+const int  LOOPTIMESERVOMS = 50;     // Loop time for controlling servos
 
 // Some switches have three states. We make constants defining LOSTATE (-1), MIDSTATE (0) and HISTATE(1)
 typedef enum triStateSwitch {
